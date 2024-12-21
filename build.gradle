@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.23'
+    id 'io.qameta.allure' version '2.9.3'
+}
+
+group 'com.example'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+ext {
+    allureVersion = '2.27.0'
+    junitVersion = '5.10.2'
+}
+
+sourceCompatibility = '22'
+targetCompatibility = '19'
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+[compileKotlin, compileTestKotlin].forEach {
+    it.kotlinOptions {
+        jvmTarget = '19'
+    }
+}
+
+dependencies {
+    implementation('org.seleniumhq.selenium:selenium-java:4.20.0')
+    implementation('org.slf4j:slf4j-simple:2.0.13')
+
+    implementation("io.github.bonigarcia:webdrivermanager:5.9.2")
+
+    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
+
+}
+
+test {
+    useJUnitPlatform()
+}
+allure {
+    autoconfigure = true
+    version = "${allureVersion}"
+
+    useJUnit5 {
+        version = "${allureVersion}"
+    }
+}
