@@ -16,6 +16,7 @@ abstract class BaseTest
         @BeforeAll
         fun testConfiguration()
         {
+            //Setting up webDriver according to Configurations
             webDriver = Settings.driverInstall(Configuration.activeBrowser, Configuration.headlessMode)
             Settings.clearAllCookies(Configuration.isAllCookiesCleared)
             Settings.setPageLoadTimeout(Configuration.pageLoadTimeout)

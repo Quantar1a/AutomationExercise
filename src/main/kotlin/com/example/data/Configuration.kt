@@ -21,10 +21,13 @@ class Configuration
         val isAllCookiesCleared : Boolean = true
 
         //set page load time duration, in seconds
-        val pageLoadTimeout : Long = 45L
+        val pageLoadTimeout : Long = 90L
 
         //set implicitly wait, in seconds
-        val implicitlyWait : Long = 15L
+        val implicitlyWait : Long = 20L
+
+        //set explicitly wait, in seconds
+        val explicitlyWait : Long = 20L
 
         //Set window mod for the browser
         val windowMode : WindowMode = WindowMode.MAXIMIZE
