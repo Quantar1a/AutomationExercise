@@ -11,6 +11,7 @@ class AutomationExerciseTest : BaseTest()
     {
 
     }
+
     @Test
     fun test1()
     {

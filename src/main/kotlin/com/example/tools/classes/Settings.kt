@@ -1,4 +1,4 @@
-package com.example.tools
+package com.example.tools.classes
 
 import com.example.tools.enums.Browsers
 import com.example.tools.enums.WindowMode
@@ -12,6 +12,8 @@ import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
 import java.time.Duration
 
+//Driver settings according to configurations
+//in com.example.data.Configuration.kt
 class Settings
 {
     companion object

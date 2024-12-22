@@ -7,16 +7,26 @@ class Configuration
 {
     companion object
     {
-        val defaultBrowser : Browsers = Browsers.MS_EDGE
+        //Set active browser
+        val activeBrowser : Browsers = Browsers.GOOGLE_CHROME
 
-        val headlessMode : Boolean = true
+        //Set headless mode
+        //true - headless on
+        //false - headless off
+        val headlessMode : Boolean = false
 
+        //Clearing all cookie files
+        //true - clear
+        //false - not clear
         val isAllCookiesCleared : Boolean = true
 
-        val pageLoadTimeout : Long = 60L
+        //set page load time duration, in seconds
+        val pageLoadTimeout : Long = 45L
 
-        val implicitlyWait : Long = 30L
+        //set implicitly wait, in seconds
+        val implicitlyWait : Long = 15L
 
+        //Set window mod for the browser
         val windowMode : WindowMode = WindowMode.MAXIMIZE
     }
 }

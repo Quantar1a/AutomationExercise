@@ -1,7 +1,7 @@
 package com.example.gui
 
 import com.example.data.Configuration
-import com.example.tools.Settings
+import com.example.tools.classes.Settings
 import org.junit.jupiter.api.BeforeAll
 import org.openqa.selenium.WebDriver
 
@@ -16,7 +16,7 @@ abstract class BaseTest
         @BeforeAll
         fun testConfiguration()
         {
-            webDriver = Settings.driverInstall(Configuration.defaultBrowser, Configuration.headlessMode)
+            webDriver = Settings.driverInstall(Configuration.activeBrowser, Configuration.headlessMode)
             Settings.clearAllCookies(Configuration.isAllCookiesCleared)
             Settings.setPageLoadTimeout(Configuration.pageLoadTimeout)
             Settings.setImplicitlyWait(Configuration.implicitlyWait)
