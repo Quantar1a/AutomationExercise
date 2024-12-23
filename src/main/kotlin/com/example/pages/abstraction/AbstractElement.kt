@@ -1,13 +1,20 @@
 package com.example.pages.abstraction
 
+import com.example.tools.classes.Settings
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.support.PageFactory
 
 //Abstract class for inner class that stores page elements
 abstract class AbstractElement
-    (protected val driver : WebDriver)
 {
-        init{
-            PageFactory.initElements(driver, this)
-        }
+    companion object
+    {
+        @JvmStatic
+        protected lateinit var webDriver: WebDriver
+    }
+
+    init{
+        webDriver = Settings.getWebDriver()
+        PageFactory.initElements(webDriver, this)
+    }
 }

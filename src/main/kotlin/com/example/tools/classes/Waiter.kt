@@ -14,8 +14,9 @@ class Waiter
     private val wait : WebDriverWait = WebDriverWait(driver, Duration.ofSeconds(Configuration.explicitlyWait))
 
     //wait till element is visible
-    fun waitTillElementIsVisible(element : WebElement)
+    fun waitTillElementIsVisible(element : WebElement) : WebElement
     {
         wait.until(ExpectedConditions.visibilityOf(element))
+        return element
     }
 }

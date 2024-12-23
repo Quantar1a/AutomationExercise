@@ -94,5 +94,10 @@ class Settings
                 }
             }
         }
+
+        fun getWebDriver() : WebDriver
+        {
+            return webDriver
+        }
     }
 }
