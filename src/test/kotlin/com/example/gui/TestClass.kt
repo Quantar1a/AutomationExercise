@@ -53,6 +53,25 @@ class TestClass : BaseTest()
                 .testCaseContainerIsVisible())
     }
 
+    //Arrow button is covered by add iframe, do not know how to solve it
+    @Test
+    fun textCase25()
+    {
+        Assertions.assertTrue(
+            mainPage
+            .scrollToSubscriptionHeader()
+            .clickOnArrow()
+            .bannerTextIsVisible())
+    }
+
+    @Test
+    fun textCase26()
+    {
+        Assertions.assertTrue(mainPage
+            .scrollToSubscriptionHeader()
+            .scrollToBannerText())
+    }
+
     @AfterEach
     fun closeDriver()
     {
