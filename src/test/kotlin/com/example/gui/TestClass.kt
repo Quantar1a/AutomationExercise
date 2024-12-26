@@ -35,6 +35,12 @@ class TestClass : BaseTest()
     @Test
     fun testCase3()
     {
+        //Main page is visible
+        Assertions.assertTrue(
+            mainPage
+                .mainPageISVisible()
+        )
+        //Try to log in with invalid email and check the error message
         Assertions.assertTrue(
             mainPage.header
                 .clickOnLogInButton()
@@ -47,6 +53,12 @@ class TestClass : BaseTest()
     @Test
     fun testCase7()
     {
+        //Main page is visible
+        Assertions.assertTrue(
+            mainPage
+                .mainPageISVisible()
+        )
+        //Navigate to "Test cases" page and check that it is visible
         Assertions.assertTrue(
             mainPage.header
                 .clickOnTestCasesButton()
@@ -57,19 +69,42 @@ class TestClass : BaseTest()
     @Test
     fun textCase25()
     {
+        //Main page is visible
+        Assertions.assertTrue(
+            mainPage
+                .mainPageISVisible()
+        )
+        //Scroll page to footer and check that "Subscription" title is visible
         Assertions.assertTrue(
             mainPage
             .scrollToSubscriptionHeader()
             .clickOnArrow()
-            .bannerTextIsVisible())
+            .bannerTextIsVisible()
+            .first)
     }
 
     @Test
     fun textCase26()
     {
-        Assertions.assertTrue(mainPage
-            .scrollToSubscriptionHeader()
-            .scrollToBannerText())
+        //Main page is visible
+        Assertions.assertTrue(
+            mainPage
+                .mainPageISVisible()
+        )
+        //Check that "Subscription" header is visible
+        Assertions.assertTrue(
+            mainPage
+                .scrollToSubscriptionHeader()
+                .subscriptionHeaderIsVisible()
+                .first
+        )
+        //Check that "Full-Fledged practice website for Automation Engineers" title is visible
+        Assertions.assertTrue(
+            mainPage
+                .scrollToBannerText()
+                .bannerTextIsVisible()
+                .first
+        )
     }
 
     @AfterEach

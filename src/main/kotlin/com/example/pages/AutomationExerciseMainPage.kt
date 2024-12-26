@@ -32,16 +32,21 @@ class AutomationExerciseMainPage(
         return this
     }
 
+    fun mainPageISVisible() : Boolean
+    {
+        return elements.topCarousel.isDisplayed
+    }
+
     fun scrollToSubscriptionHeader() : AutomationExerciseMainPage
     {
         this.scrollToTheElement(elements.subscriptionHeader)
         return this
     }
 
-    fun scrollToBannerText() : Boolean
+    fun scrollToBannerText() : AutomationExerciseMainPage
     {
         this.scrollToTheElement(elements.bannerText)
-        return elements.bannerText.isDisplayed
+        return this
     }
 
     fun clickOnArrow() : AutomationExerciseMainPage
@@ -50,11 +55,15 @@ class AutomationExerciseMainPage(
         return this
     }
 
-    fun bannerTextIsVisible() : Boolean
+    fun subscriptionHeaderIsVisible() : Pair <Boolean, AutomationExerciseMainPage>
     {
-        return Waiter(webDriver).waitTillElementIsVisible(elements.bannerText).isDisplayed
+        return Pair(elements.subscriptionHeader.isDisplayed, this)
     }
 
+    fun bannerTextIsVisible() : Pair<Boolean, AutomationExerciseMainPage>
+    {
+        return Pair(elements.bannerText.isDisplayed, this)
+    }
 
 
 

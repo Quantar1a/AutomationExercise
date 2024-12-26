@@ -9,10 +9,11 @@ class TestData
         //Main URL of the Automation Exercise
         val url: String = "https://www.automationexercise.com"
 
-        var emal : String = TestData().generateEmail()
+        var email : String = TestData().generateRandomEmail()
     }
 
-    fun generateEmail() : String
+
+    fun generateRandomEmail() : String
     {
         return Faker().internet().emailAddress()
     }
