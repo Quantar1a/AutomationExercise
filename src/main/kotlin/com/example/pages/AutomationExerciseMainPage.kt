@@ -4,7 +4,6 @@ import com.example.pages.abstraction.AbstractElement
 import com.example.pages.abstraction.AbstractPage
 import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
-import com.example.tools.classes.Waiter
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
@@ -18,8 +17,7 @@ class AutomationExerciseMainPage(
 
     init{
         //Wait till the page is visible
-        Waiter(webDriver)
-        .waitTillElementIsVisible(elements.topCarousel)
+        this.waitTillElementIsVisible(elements.topCarousel)
     }
 
     fun mainPageISVisible() : Boolean

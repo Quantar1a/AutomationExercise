@@ -1,10 +1,10 @@
 package com.example.pages.pageComponents
 
+import com.example.pages.InformationalPage
 import com.example.pages.LogInPage
 import com.example.pages.TestCasesPage
 import com.example.pages.abstraction.AbstractElement
 import com.example.pages.abstraction.AbstractPage
-import com.example.tools.classes.Waiter
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
@@ -15,7 +15,7 @@ class PageHeader : AbstractPage()
 
     init
     {
-        Waiter(webDriver).waitTillElementIsVisible(elements.webSiteLogo)
+        this.waitTillElementIsVisible(elements.webSiteLogo)
     }
 
     fun clickOnLogInButton() : LogInPage
@@ -30,6 +30,17 @@ class PageHeader : AbstractPage()
         return TestCasesPage(this, PageFooter())
     }
 
+    fun loggedInAsAUserTextIsVisible() : Boolean
+    {
+        return elements.loggedInAsUserText.isDisplayed
+    }
+
+    fun clickOnDeleteAccountButton() : InformationalPage
+    {
+        elements.deleteAccountButton.click()
+        return InformationalPage(this, PageFooter())
+    }
+
     class Elements : AbstractElement()
     {
         @FindBy(xpath = "//img[@src='/static/images/home/logo.png']")
@@ -40,5 +51,11 @@ class PageHeader : AbstractPage()
 
         @FindBy(xpath = "//a[@href='/test_cases']")
         lateinit var testCasesButton : WebElement
+
+        @FindBy(xpath = "//a[text()=' Logged in as ']")
+        lateinit var loggedInAsUserText : WebElement
+
+        @FindBy(xpath = "//a[text()=' Delete Account']")
+        lateinit var deleteAccountButton : WebElement
     }
 }

@@ -32,6 +32,69 @@ class TestClass : BaseTest()
     }
 
     @Test
+    fun testCase1()
+    {
+        //Main page is visible
+        Assertions.assertTrue(
+            mainPage
+                .mainPageISVisible()
+        )
+
+        //"New User Signup!" title is visible
+        val (logInTitleIsVisible, logInPage) =
+        mainPage
+            .header
+            .clickOnLogInButton()
+            .newUserSignUpTitleIsVisible()
+        Assertions.assertTrue(logInTitleIsVisible)
+
+        //"Enter Account Information" title is visible
+        val (registerTitleIsVisible, registerPage) =
+        logInPage
+            .signIn(TestData.customer.firstName, TestData.customer.email)
+            .checkThatPageTitleIsVisible()
+
+        Assertions.assertTrue(registerTitleIsVisible)
+
+        //Register the user, and check that "Account Created!" title is visible
+        val informationalPage =
+            registerPage
+            .enterAccountInformation(
+                TestData.customer,
+                TestData.password,
+                newsLetterSubscription = true,
+                specialOffersSubscription = true
+            )
+            .enterAddressInformation(TestData.customer)
+            .createAnAccount()
+
+        Assertions.assertTrue(
+            informationalPage
+                .accountCreatedTitleIsVisible())
+
+        //"Logged as a User" text is visible
+        Assertions.assertTrue(
+            informationalPage
+                .clickOnContinueButton()
+                .header
+                .loggedInAsAUserTextIsVisible())
+
+        //Click on "Delete account" button and check that "Account deleted" is visible
+        val (accountDeletedIsVisible, infoPage) =
+            mainPage.header
+                .clickOnDeleteAccountButton()
+                .accountDeletedTitleIsVisible()
+        Assertions.assertTrue(accountDeletedIsVisible)
+
+        //Check that user have returned to main page
+        Assertions.assertTrue(
+            infoPage
+                .clickOnContinueButton()
+                .mainPageISVisible())
+    }
+
+
+    @Test
     fun testCase3()
     {
         //Main page is visible

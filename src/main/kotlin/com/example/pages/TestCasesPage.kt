@@ -4,7 +4,6 @@ import com.example.pages.abstraction.AbstractElement
 import com.example.pages.abstraction.AbstractPage
 import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
-import com.example.tools.classes.Waiter
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
@@ -19,14 +18,12 @@ class TestCasesPage(
     init
     {
         // wait till the page is loaded (element is visible on the page)
-        Waiter(webDriver).waitTillElementIsVisible(elements.testCaseContainer)
+        this.waitTillElementIsVisible(elements.testCaseContainer)
     }
 
     fun testCaseContainerIsVisible() : Boolean
     {
-        return Waiter(webDriver)
-            .waitTillElementIsVisible(elements.testCaseContainer)
-            .isDisplayed
+        return this.waitTillElementIsVisible(elements.testCaseContainer).isDisplayed
     }
 
     class Elements : AbstractElement()
