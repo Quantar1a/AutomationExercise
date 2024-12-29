@@ -2,12 +2,17 @@ package com.example.pages
 
 import com.example.pages.abstraction.AbstractElement
 import com.example.pages.abstraction.AbstractPage
+import com.example.pages.pageComponents.PageFooter
+import com.example.pages.pageComponents.PageHeader
 import com.example.tools.classes.Waiter
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
 //Class for Login or Sing in page
-class LogInPage : AbstractPage()
+class LogInPage(
+    var header: PageHeader,
+    var footer : PageFooter
+) : AbstractPage()
 {
     private var elements : Elements = Elements()
 

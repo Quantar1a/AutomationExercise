@@ -3,6 +3,7 @@ package com.example.gui
 import com.example.data.Configuration
 import com.example.data.TestData
 import com.example.pages.AutomationExerciseMainPage
+import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
 import com.example.tools.classes.Actions
 import com.example.tools.classes.Settings
@@ -14,7 +15,6 @@ import org.junit.jupiter.api.Test
 class TestClass : BaseTest()
 {
     lateinit var mainPage : AutomationExerciseMainPage
-    lateinit var headerPage : PageHeader
 
     @BeforeEach
     fun setUpTest()
@@ -28,8 +28,7 @@ class TestClass : BaseTest()
 
         //initialize AutomationExercise main page, and open it in browser
         Actions(webDriver).openURL(TestData.url)
-        headerPage = PageHeader()
-        mainPage = AutomationExerciseMainPage(headerPage)
+        mainPage = AutomationExerciseMainPage(PageHeader(), PageFooter())
     }
 
     @Test
@@ -77,10 +76,15 @@ class TestClass : BaseTest()
         //Scroll page to footer and check that "Subscription" title is visible
         Assertions.assertTrue(
             mainPage
-            .scrollToSubscriptionHeader()
-            .clickOnArrow()
-            .bannerTextIsVisible()
-            .first)
+                .footer
+                .scrollToSubscriptionHeader()
+                .subscriptionHeaderIsVisible()
+        )
+        //Click on arrow button and check that the text on the banner is visible
+        Assertions.assertTrue(
+            mainPage
+                .clickOnArrow()
+                .bannerTextIsVisible())
     }
 
     @Test
@@ -94,16 +98,15 @@ class TestClass : BaseTest()
         //Check that "Subscription" header is visible
         Assertions.assertTrue(
             mainPage
+                .footer
                 .scrollToSubscriptionHeader()
                 .subscriptionHeaderIsVisible()
-                .first
         )
         //Check that "Full-Fledged practice website for Automation Engineers" title is visible
         Assertions.assertTrue(
             mainPage
                 .scrollToBannerText()
                 .bannerTextIsVisible()
-                .first
         )
     }
 

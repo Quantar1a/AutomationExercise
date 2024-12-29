@@ -2,12 +2,17 @@ package com.example.pages
 
 import com.example.pages.abstraction.AbstractElement
 import com.example.pages.abstraction.AbstractPage
+import com.example.pages.pageComponents.PageFooter
+import com.example.pages.pageComponents.PageHeader
 import com.example.tools.classes.Waiter
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
 //Page with the list of test cases on the website
-class TestCasesPage : AbstractPage()
+class TestCasesPage(
+    var header: PageHeader,
+    var footer : PageFooter
+) : AbstractPage()
 {
     private var elements : Elements = Elements()
 

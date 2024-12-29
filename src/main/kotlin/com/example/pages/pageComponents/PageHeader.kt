@@ -21,13 +21,13 @@ class PageHeader : AbstractPage()
     fun clickOnLogInButton() : LogInPage
     {
         elements.loginButton.click()
-        return LogInPage()
+        return LogInPage(this, PageFooter())
     }
 
     fun clickOnTestCasesButton() : TestCasesPage
     {
         elements.testCasesButton.click()
-        return TestCasesPage()
+        return TestCasesPage(this, PageFooter())
     }
 
     class Elements : AbstractElement()
