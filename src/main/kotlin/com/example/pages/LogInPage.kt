@@ -20,21 +20,23 @@ class LogInPage(
         this.waitTillElementIsVisible(elements.loginForm)
     }
 
-    fun enterEmailInLogInInput(email : String) : LogInPage
+    private fun logIn(email : String, password : String)
     {
         elements.logInEmailInput.sendKeys(email)
-        return this
-    }
-
-    fun enterPasswordInLogInInput(password : String) : LogInPage
-    {
         elements.logInPasswordInput.sendKeys(password)
-        return this
+        elements.logInButton.click()
     }
 
-    fun clickOnLogInButton() : LogInPage
+
+    fun logInWithValidData(email : String, password : String) : AutomationExerciseMainPage
     {
-        elements.logInButton.click()
+        this.logIn(email, password)
+        return AutomationExerciseMainPage(header, footer)
+    }
+
+    fun logInWithInvaliData(email : String, password : String) : LogInPage
+    {
+        this.logIn(email, password)
         return this
     }
 
@@ -58,6 +60,23 @@ class LogInPage(
         return RegisterPage(header, footer)
     }
 
+    fun signInWithInvalidData(name : String, email : String) : LogInPage
+    {
+        elements.signInNameInput.sendKeys(name)
+        elements.signInEmailInput.sendKeys(email)
+        elements.signupButton.click()
+        return this
+    }
+
+    fun logInToYourAccountHeaderIsVisible() : Pair <Boolean, LogInPage>
+    {
+        return Pair(elements.logInToYourAccountTitle.isDisplayed, this)
+    }
+
+    fun emailAddressAlreadyExistsIsVisible() : Boolean
+    {
+        return elements.emailAddressAlreadyExistsError.isDisplayed
+    }
 
 
     class Elements : AbstractElement()
@@ -88,5 +107,11 @@ class LogInPage(
 
         @FindBy(xpath = "//button[@data-qa='signup-button']")
         lateinit var signupButton : WebElement
+
+        @FindBy(xpath = "//div[@class='login-form']//h2")
+        lateinit var logInToYourAccountTitle : WebElement
+
+        @FindBy(xpath = "//p[text()='Email Address already exist!']")
+        lateinit var emailAddressAlreadyExistsError : WebElement
     }
 }

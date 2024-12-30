@@ -2,6 +2,7 @@ package com.example.pages.abstraction
 
 import com.example.data.Configuration
 import com.example.tools.classes.Settings
+import org.openqa.selenium.Alert
 import org.openqa.selenium.JavascriptExecutor
 import org.openqa.selenium.WebDriver
 import org.openqa.selenium.WebElement
@@ -39,5 +40,10 @@ abstract class AbstractPage
     {
         wait.until(ExpectedConditions.visibilityOf(webElement))
         return webElement
+    }
+
+    protected fun waitTillAlertIsPresent() : Alert
+    {
+       return wait.until(ExpectedConditions.alertIsPresent())
     }
 }

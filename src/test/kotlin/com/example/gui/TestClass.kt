@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test
 
 class TestClass : BaseTest()
 {
-    lateinit var mainPage : AutomationExerciseMainPage
+    lateinit var mainPage: AutomationExerciseMainPage
 
     @BeforeEach
     fun setUpTest()
@@ -37,36 +37,34 @@ class TestClass : BaseTest()
         //Main page is visible
         Assertions.assertTrue(
             mainPage
-                .mainPageISVisible()
-        )
+                .mainPageISVisible())
 
         //"New User Signup!" title is visible
         val (logInTitleIsVisible, logInPage) =
-        mainPage
-            .header
-            .clickOnLogInButton()
-            .newUserSignUpTitleIsVisible()
+            mainPage
+                .header
+                .clickOnLogInButton()
+                .newUserSignUpTitleIsVisible()
         Assertions.assertTrue(logInTitleIsVisible)
 
         //"Enter Account Information" title is visible
         val (registerTitleIsVisible, registerPage) =
-        logInPage
-            .signIn(TestData.customer.firstName, TestData.customer.email)
-            .checkThatPageTitleIsVisible()
+            logInPage
+                .signIn(TestData.customer.firstName, TestData.customer.email)
+                .checkThatPageTitleIsVisible()
 
         Assertions.assertTrue(registerTitleIsVisible)
 
         //Register the user, and check that "Account Created!" title is visible
         val informationalPage =
             registerPage
-            .enterAccountInformation(
-                TestData.customer,
-                TestData.password,
-                newsLetterSubscription = true,
-                specialOffersSubscription = true
-            )
-            .enterAddressInformation(TestData.customer)
-            .createAnAccount()
+                .enterAccountInformation(
+                    TestData.customer,
+                    TestData.password,
+                    newsLetterSubscription = true,
+                    specialOffersSubscription = true)
+                .enterAddressInformation(TestData.customer)
+                .createAnAccount()
 
         Assertions.assertTrue(
             informationalPage
@@ -93,6 +91,34 @@ class TestClass : BaseTest()
                 .mainPageISVisible())
     }
 
+    @Test
+    fun testcase2()
+    {
+        //Main page is visible
+        Assertions.assertTrue(
+            mainPage
+                .mainPageISVisible())
+
+        //"Log in to your account" is visible
+        var (logInToYourAccountIsVisible, logInPage) =
+            mainPage
+                .header
+                .clickOnLogInButton()
+                .logInToYourAccountHeaderIsVisible()
+        Assertions.assertTrue(logInToYourAccountIsVisible)
+
+        //"Logged in as a user" test is visible
+        Assertions.assertTrue(
+            logInPage
+                .logInWithValidData(TestData.email, TestData.password)
+                .header
+                .loggedInAsAUserTextIsVisible())
+
+        //Logout
+        mainPage
+            .header
+            .logoutButtonClick()
+    }
 
     @Test
     fun testCase3()
@@ -100,16 +126,96 @@ class TestClass : BaseTest()
         //Main page is visible
         Assertions.assertTrue(
             mainPage
-                .mainPageISVisible()
-        )
+                .mainPageISVisible())
         //Try to log in with invalid email and check the error message
         Assertions.assertTrue(
             mainPage.header
                 .clickOnLogInButton()
-                .enterEmailInLogInInput("12345@gmail")
-                .enterPasswordInLogInInput("123456")
-                .clickOnLogInButton()
+                .logInWithInvaliData("12345@gmail.com", "123456")
                 .invalidEmailOrPasswordMessageIsVisible())
+    }
+
+    @Test
+    fun testCase4()
+    {
+        //Main page is visible
+        Assertions.assertTrue(
+            mainPage
+                .mainPageISVisible())
+
+        //"Log in to your account" is visible
+        var (logInToYourAccountIsVisible, logInPage) =
+            mainPage
+                .header
+                .clickOnLogInButton()
+                .logInToYourAccountHeaderIsVisible()
+        Assertions.assertTrue(logInToYourAccountIsVisible)
+
+        //"Logged in as a user" test is visible
+        Assertions.assertTrue(
+            logInPage
+                .logInWithValidData(TestData.email, TestData.password)
+                .header
+                .loggedInAsAUserTextIsVisible())
+
+        //Logout and check that the LogIn page is visible
+        Assertions.assertTrue(
+            mainPage
+            .header
+            .logoutButtonClick().logInToYourAccountHeaderIsVisible()
+            .first)
+    }
+
+    @Test
+    fun testCase5()
+    {
+        //Main page is visible
+        Assertions.assertTrue(
+            mainPage
+                .mainPageISVisible())
+
+        //"New User Signup!" title is visible
+        val (logInTitleIsVisible, logInPage) =
+            mainPage
+                .header
+                .clickOnLogInButton()
+                .newUserSignUpTitleIsVisible()
+        Assertions.assertTrue(logInTitleIsVisible)
+
+        //"Email already exists" error message is visible
+        Assertions.assertTrue(logInPage
+            .signInWithInvalidData("Anna", TestData.email)
+            .emailAddressAlreadyExistsIsVisible())
+    }
+
+    @Test
+    fun testCase6()
+    {
+        //Main page is visible
+        Assertions.assertTrue(
+            mainPage
+                .mainPageISVisible())
+
+        //
+        var (getInTouchTitleIsVisible, contactUsPage) =
+        mainPage
+            .header
+            .clickOnContactUsButton()
+            .getInTouchTitleIsVisible()
+        Assertions.assertTrue(getInTouchTitleIsVisible)
+
+        //"Success! Your details have been submitted successfully." message is displayed
+        Assertions.assertTrue(
+            contactUsPage
+                .sendAMessage(TestData.message)
+                .submitAlert()
+                .successMessageISVisible())
+
+        //Click on "Home" button and check that home page is visible
+        Assertions.assertTrue(
+            contactUsPage
+                .clickOnHomeButton()
+                .mainPageISVisible())
     }
 
     @Test
@@ -118,8 +224,8 @@ class TestClass : BaseTest()
         //Main page is visible
         Assertions.assertTrue(
             mainPage
-                .mainPageISVisible()
-        )
+                .mainPageISVisible())
+
         //Navigate to "Test cases" page and check that it is visible
         Assertions.assertTrue(
             mainPage.header
@@ -134,15 +240,15 @@ class TestClass : BaseTest()
         //Main page is visible
         Assertions.assertTrue(
             mainPage
-                .mainPageISVisible()
-        )
+                .mainPageISVisible())
+
         //Scroll page to footer and check that "Subscription" title is visible
         Assertions.assertTrue(
             mainPage
                 .footer
                 .scrollToSubscriptionHeader()
-                .subscriptionHeaderIsVisible()
-        )
+                .subscriptionHeaderIsVisible())
+
         //Click on arrow button and check that the text on the banner is visible
         Assertions.assertTrue(
             mainPage
@@ -156,21 +262,21 @@ class TestClass : BaseTest()
         //Main page is visible
         Assertions.assertTrue(
             mainPage
-                .mainPageISVisible()
-        )
+                .mainPageISVisible())
+
         //Check that "Subscription" header is visible
         Assertions.assertTrue(
             mainPage
                 .footer
                 .scrollToSubscriptionHeader()
-                .subscriptionHeaderIsVisible()
-        )
+                .subscriptionHeaderIsVisible())
+
         //Check that "Full-Fledged practice website for Automation Engineers" title is visible
         Assertions.assertTrue(
             mainPage
                 .scrollToBannerText()
-                .bannerTextIsVisible()
-        )
+                .bannerTextIsVisible())
+        
     }
 
     @AfterEach

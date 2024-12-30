@@ -1,5 +1,6 @@
 package com.example.pages.pageComponents
 
+import com.example.pages.ContactUsPage
 import com.example.pages.InformationalPage
 import com.example.pages.LogInPage
 import com.example.pages.TestCasesPage
@@ -41,6 +42,18 @@ class PageHeader : AbstractPage()
         return InformationalPage(this, PageFooter())
     }
 
+    fun logoutButtonClick() : LogInPage
+    {
+        elements.logoutButton.click()
+        return LogInPage(this, PageFooter())
+    }
+
+    fun clickOnContactUsButton() : ContactUsPage
+    {
+        elements.contactUsButton.click()
+        return ContactUsPage(this, PageFooter())
+    }
+
     class Elements : AbstractElement()
     {
         @FindBy(xpath = "//img[@src='/static/images/home/logo.png']")
@@ -57,5 +70,11 @@ class PageHeader : AbstractPage()
 
         @FindBy(xpath = "//a[text()=' Delete Account']")
         lateinit var deleteAccountButton : WebElement
+
+        @FindBy(xpath = "//a[@href='/logout']")
+        lateinit var logoutButton : WebElement
+
+        @FindBy(xpath = "//a[@href='/contact_us']")
+        lateinit var contactUsButton : WebElement
     }
 }
