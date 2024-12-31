@@ -4,6 +4,9 @@ plugins {
     id 'io.qameta.allure' version '2.9.3'
 }
 
+// Define the version of Allure you want to use via the allureVersion property
+def allureVersion = "2.25.0"
+
 group 'com.example'
 version '1.0-SNAPSHOT'
 
@@ -38,9 +41,11 @@ dependencies {
 
     implementation("io.github.bonigarcia:webdrivermanager:5.9.2")
 
-    testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
+    implementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 
+    testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
+    testImplementation "io.qameta.allure:allure-junit5"
 }
 
 test {
@@ -54,4 +59,25 @@ allure {
     useJUnit5 {
         version = "${allureVersion}"
     }
+}
+
+// Define the version of AspectJ
+def aspectJVersion = '1.9.21'
+
+// Define configuration for AspectJ agent
+configurations {
+    agent {
+        canBeResolved = true
+        canBeConsumed = true
+    }
+}
+
+dependencies {
+    // Add aspectjweaver dependency
+    agent "org.aspectj:aspectjweaver:$aspectJVersion"
+}
+
+// Configure javaagent for test execution
+test {
+    jvmArgs = [ "-javaagent:${configurations.agent.singleFile}" ]
 }

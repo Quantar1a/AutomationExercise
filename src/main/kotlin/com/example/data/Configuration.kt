@@ -21,7 +21,7 @@ class Configuration
         val isAllCookiesCleared : Boolean = true
 
         //set page load time duration, in seconds
-        val pageLoadTimeout : Long = 120L
+        val pageLoadTimeout : Long = 240L
 
         //set implicitly wait, in seconds
         val implicitlyWait : Long = 20L

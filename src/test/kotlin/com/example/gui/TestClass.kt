@@ -7,10 +7,9 @@ import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
 import com.example.tools.classes.Actions
 import com.example.tools.classes.Settings
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import io.qameta.allure.Description
+import io.qameta.allure.Flaky
+import org.junit.jupiter.api.*
 
 class TestClass : BaseTest()
 {
@@ -32,6 +31,9 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @DisplayName("Test Case 1: Register User")
+    @Description("Register new user in the system")
+    @Flaky
     fun testCase1()
     {
         //Main page is visible
@@ -92,6 +94,8 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @DisplayName("Test Case 2: Login User with correct email and password")
+    @Description("Login in the system with valid data")
     fun testcase2()
     {
         //Main page is visible
@@ -121,6 +125,8 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @DisplayName("Test Case 3: Login User with incorrect email and password")
+    @Description("Attempt to login in the system with invalid data")
     fun testCase3()
     {
         //Main page is visible
@@ -136,6 +142,8 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @DisplayName("Test Case 4: Logout User")
+    @Description("Log out user from the system")
     fun testCase4()
     {
         //Main page is visible
@@ -167,6 +175,9 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @DisplayName("Test Case 5: Register User with existing email")
+    @Description("Try to register the user with already registered email " +
+            "amd check the error message")
     fun testCase5()
     {
         //Main page is visible
@@ -189,6 +200,8 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @DisplayName("Test Case 6: Contact Us Form")
+    @Description("Go to \"Contact us\" form, fill it, and send the message")
     fun testCase6()
     {
         //Main page is visible
@@ -219,6 +232,8 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @DisplayName("Test Case 7: Verify Test Cases Page")
+    @Description("Check that the page with test cases is displayed after moving to it")
     fun testCase7()
     {
         //Main page is visible
@@ -235,6 +250,10 @@ class TestClass : BaseTest()
 
     //Arrow button is covered by add iframe, do not know how to solve it
     @Test
+    @DisplayName("Test Case 25: Verify Scroll Up using 'Arrow' button and Scroll Down functionality")
+    @Description("Scroll page to the footer, check that \"Subscription\" title is displayed, " +
+            "and move to the top by clicking on arrow button")
+    @Flaky
     fun textCase25()
     {
         //Main page is visible
@@ -257,6 +276,9 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @DisplayName("Test Case 26: Verify Scroll Up without 'Arrow' button and Scroll Down functionality")
+    @Description("Scroll page to the footer, check that \"Subscription\" title is displayed, " +
+            "and move to the top by scrolling it manually")
     fun textCase26()
     {
         //Main page is visible

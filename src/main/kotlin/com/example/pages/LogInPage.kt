@@ -4,6 +4,7 @@ import com.example.pages.abstraction.AbstractElement
 import com.example.pages.abstraction.AbstractPage
 import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
+import io.qameta.allure.Step
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
@@ -27,19 +28,26 @@ class LogInPage(
         elements.logInButton.click()
     }
 
-
+    @Step("""
+        Enter correct email address and password
+        Click 'login' button""")
     fun logInWithValidData(email : String, password : String) : AutomationExerciseMainPage
     {
         this.logIn(email, password)
         return AutomationExerciseMainPage(header, footer)
     }
 
+    @Step("""
+        Enter incorrect email address and password
+        Click 'login' button
+    """)
     fun logInWithInvaliData(email : String, password : String) : LogInPage
     {
         this.logIn(email, password)
         return this
     }
 
+    @Step("Verify error 'Your email or password is incorrect!' is visible")
     fun invalidEmailOrPasswordMessageIsVisible() : Boolean
     {
         return this
@@ -47,11 +55,16 @@ class LogInPage(
             .isDisplayed
     }
 
+    @Step("Verify 'New User Signup!' is visible")
     fun newUserSignUpTitleIsVisible() : Pair<Boolean, LogInPage>
     {
         return Pair(elements.newUserSignUpTitle.isDisplayed, this)
     }
 
+    @Step("""
+        Enter name and email address
+        Click 'Signup' button
+    """)
     fun signIn(name : String, email : String) : RegisterPage
     {
         elements.signInNameInput.sendKeys(name)
@@ -60,6 +73,10 @@ class LogInPage(
         return RegisterPage(header, footer)
     }
 
+    @Step("""
+        Enter name and already registered email address
+        Click 'Signup' button
+    """)
     fun signInWithInvalidData(name : String, email : String) : LogInPage
     {
         elements.signInNameInput.sendKeys(name)
@@ -68,11 +85,13 @@ class LogInPage(
         return this
     }
 
+    @Step("Verify 'Login to your account' is visible")
     fun logInToYourAccountHeaderIsVisible() : Pair <Boolean, LogInPage>
     {
         return Pair(elements.logInToYourAccountTitle.isDisplayed, this)
     }
 
+    @Step("Verify error 'Email Address already exist!' is visible")
     fun emailAddressAlreadyExistsIsVisible() : Boolean
     {
         return elements.emailAddressAlreadyExistsError.isDisplayed

@@ -5,6 +5,7 @@ import com.example.pages.abstraction.AbstractElement
 import com.example.pages.abstraction.AbstractPage
 import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
+import io.qameta.allure.Step
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
@@ -22,11 +23,17 @@ class ContactUsPage(
         this.waitTillElementIsVisible(elements.getInTouchTitle)
     }
 
+    @Step("Verify 'GET IN TOUCH' is visible")
     fun getInTouchTitleIsVisible() : Pair <Boolean, ContactUsPage>
     {
         return Pair(elements.getInTouchTitle.isDisplayed, this)
     }
 
+    @Step("""
+        Enter name, email, subject and message
+        Upload file
+        Click 'Submit' button
+    """)
     fun sendAMessage(message : Message) : ContactUsPage
     {
         elements.nameInputField.sendKeys(message.name)
@@ -38,17 +45,21 @@ class ContactUsPage(
         return this
     }
 
+    @Step("Click OK button")
     fun submitAlert() : ContactUsPage
     {
         this.waitTillAlertIsPresent().accept()
         return this
     }
 
+    @Step("Verify success message 'Success! Your details have been " +
+            "submitted successfully.' is visible")
     fun successMessageISVisible() : Boolean
     {
         return elements.successMessage.isDisplayed
     }
 
+    @Step("Click 'Home' button and verify that landed to home page successfully")
     fun clickOnHomeButton() : AutomationExerciseMainPage
     {
         elements.homeButton.click()

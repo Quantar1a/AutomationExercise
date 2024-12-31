@@ -4,6 +4,7 @@ import com.example.pages.abstraction.AbstractElement
 import com.example.pages.abstraction.AbstractPage
 import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
+import io.qameta.allure.Step
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
@@ -21,6 +22,7 @@ class TestCasesPage(
         this.waitTillElementIsVisible(elements.testCaseContainer)
     }
 
+    @Step("Verify user is navigated to test cases page successfully")
     fun testCaseContainerIsVisible() : Boolean
     {
         return this.waitTillElementIsVisible(elements.testCaseContainer).isDisplayed
