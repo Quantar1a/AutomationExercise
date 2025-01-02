@@ -19,7 +19,7 @@ class TestClass : BaseTest()
     fun setUpTest()
     {
         //Driver set up
-        webDriver = Settings.driverInstall(Configuration.activeBrowser, Configuration.headlessMode)
+        webDriver = Settings.driverInstall()
         Settings.clearAllCookies(Configuration.isAllCookiesCleared)
         Settings.setPageLoadTimeout(Configuration.pageLoadTimeout)
         Settings.setImplicitlyWait(Configuration.implicitlyWait)
@@ -28,6 +28,15 @@ class TestClass : BaseTest()
         //initialize AutomationExercise main page, and open it in browser
         Actions(webDriver).openURL(TestData.url)
         mainPage = AutomationExerciseMainPage(PageHeader(), PageFooter())
+
+        //switch to the extension page and close it
+        val windowHandles : ArrayList<String> = ArrayList(webDriver.windowHandles)
+
+        webDriver.switchTo().window(windowHandles[1])
+        webDriver.close()
+
+        //go to primary page
+        webDriver.switchTo().window(windowHandles[0])
     }
 
     @Test
@@ -137,7 +146,7 @@ class TestClass : BaseTest()
         Assertions.assertTrue(
             mainPage.header
                 .clickOnLogInButton()
-                .logInWithInvaliData("12345@gmail.com", "123456")
+                .logInWithInvaliData("12345@gmail", "123456")
                 .invalidEmailOrPasswordMessageIsVisible())
     }
 
@@ -248,7 +257,6 @@ class TestClass : BaseTest()
                 .testCaseContainerIsVisible())
     }
 
-    //Arrow button is covered by add iframe, do not know how to solve it
     @Test
     @DisplayName("Test Case 25: Verify Scroll Up using 'Arrow' button and Scroll Down functionality")
     @Description("Scroll page to the footer, check that \"Subscription\" title is displayed, " +

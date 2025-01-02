@@ -1,5 +1,6 @@
 package com.example.tools.classes
 
+import com.example.data.Configuration
 import com.example.tools.enums.Browsers
 import com.example.tools.enums.WindowMode
 import io.github.bonigarcia.wdm.WebDriverManager
@@ -10,6 +11,7 @@ import org.openqa.selenium.edge.EdgeDriver
 import org.openqa.selenium.edge.EdgeOptions
 import org.openqa.selenium.firefox.FirefoxDriver
 import org.openqa.selenium.firefox.FirefoxOptions
+import org.openqa.selenium.firefox.FirefoxProfile
 import java.time.Duration
 
 //Driver settings according to configurations
@@ -20,17 +22,22 @@ class Settings
     {
         private lateinit var webDriver : WebDriver
 
-        fun driverInstall(selectedBrowser : Browsers, headlessMode : Boolean) : WebDriver
+        fun driverInstall() : WebDriver
         {
-            when(selectedBrowser)
+            when(Configuration.activeBrowser)
             {
                 Browsers.GOOGLE_CHROME -> {
                     WebDriverManager.chromedriver().setup()
                     val chromeOptions = ChromeOptions()
 
-                    if(headlessMode)
+                    if(Configuration.headlessMode)
                     {
                         chromeOptions.addArguments("--headless")
+                    }
+
+                    if(Configuration.isAddBlockerAllowed)
+                    {
+                        chromeOptions.addExtensions(Configuration.addblockerFile)
                     }
 
                     webDriver = ChromeDriver(chromeOptions)
@@ -39,9 +46,16 @@ class Settings
                     WebDriverManager.firefoxdriver().setup()
                     val firefoxOptions = FirefoxOptions()
 
-                    if(headlessMode)
+                    if(Configuration.headlessMode)
                     {
                         firefoxOptions.addArguments("-headless")
+                    }
+
+                    if(Configuration.isAddBlockerAllowed)
+                    {
+                        val profile : FirefoxProfile = FirefoxProfile()
+                        profile.addExtension(Configuration.addblockerFile)
+                        firefoxOptions.setProfile(profile)
                     }
 
                     webDriver = FirefoxDriver(firefoxOptions)
@@ -50,9 +64,14 @@ class Settings
                     WebDriverManager.edgedriver().setup()
                     val edgeOptions = EdgeOptions()
 
-                    if(headlessMode)
+                    if(Configuration.headlessMode)
                     {
                         edgeOptions.addArguments("headless")
+                    }
+
+                    if(Configuration.isAddBlockerAllowed)
+                    {
+                        edgeOptions.addExtensions(Configuration.addblockerFile)
                     }
 
                     webDriver = EdgeDriver(edgeOptions)

@@ -2,6 +2,7 @@ package com.example.data
 
 import com.example.tools.enums.Browsers
 import com.example.tools.enums.WindowMode
+import java.io.File
 
 class Configuration
 {
@@ -31,5 +32,11 @@ class Configuration
 
         //Set window mod for the browser
         val windowMode : WindowMode = WindowMode.MAXIMIZE
+
+        //Set the add blocker if the value is true
+        val isAddBlockerAllowed : Boolean = true
+
+        //addblocker file
+        val addblockerFile : File = File("src/test/resources/extensions/AdGuard-AdBlocker.crx")
     }
 }
