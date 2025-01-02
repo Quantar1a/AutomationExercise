@@ -8,9 +8,9 @@ import com.example.pages.pageComponents.PageHeader
 import com.example.tools.classes.Actions
 import com.example.tools.classes.Settings
 import io.qameta.allure.Description
-import io.qameta.allure.Flaky
 import org.junit.jupiter.api.*
 
+@TestMethodOrder(MethodOrderer::class)
 class TestClass : BaseTest()
 {
     lateinit var mainPage: AutomationExerciseMainPage
@@ -40,9 +40,9 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @Order(1)
     @DisplayName("Test Case 1: Register User")
     @Description("Register new user in the system")
-    @Flaky
     fun testCase1()
     {
         //Main page is visible
@@ -103,6 +103,7 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @Order(2)
     @DisplayName("Test Case 2: Login User with correct email and password")
     @Description("Login in the system with valid data")
     fun testcase2()
@@ -134,6 +135,7 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @Order(3)
     @DisplayName("Test Case 3: Login User with incorrect email and password")
     @Description("Attempt to login in the system with invalid data")
     fun testCase3()
@@ -151,6 +153,7 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @Order(4)
     @DisplayName("Test Case 4: Logout User")
     @Description("Log out user from the system")
     fun testCase4()
@@ -184,6 +187,7 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @Order(5)
     @DisplayName("Test Case 5: Register User with existing email")
     @Description("Try to register the user with already registered email " +
             "amd check the error message")
@@ -209,6 +213,7 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @Order(6)
     @DisplayName("Test Case 6: Contact Us Form")
     @Description("Go to \"Contact us\" form, fill it, and send the message")
     fun testCase6()
@@ -241,6 +246,7 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @Order(7)
     @DisplayName("Test Case 7: Verify Test Cases Page")
     @Description("Check that the page with test cases is displayed after moving to it")
     fun testCase7()
@@ -258,10 +264,10 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @Order(25)
     @DisplayName("Test Case 25: Verify Scroll Up using 'Arrow' button and Scroll Down functionality")
     @Description("Scroll page to the footer, check that \"Subscription\" title is displayed, " +
             "and move to the top by clicking on arrow button")
-    @Flaky
     fun textCase25()
     {
         //Main page is visible
@@ -284,6 +290,7 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @Order(26)
     @DisplayName("Test Case 26: Verify Scroll Up without 'Arrow' button and Scroll Down functionality")
     @Description("Scroll page to the footer, check that \"Subscription\" title is displayed, " +
             "and move to the top by scrolling it manually")
