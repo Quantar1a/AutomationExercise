@@ -1,11 +1,8 @@
 plugins {
     id 'java'
     id 'org.jetbrains.kotlin.jvm' version '1.9.23'
-    id 'io.qameta.allure' version '2.9.3'
+    id 'io.qameta.allure' version '2.12.0'
 }
-
-// Define the version of Allure you want to use via the allureVersion property
-def allureVersion = "2.25.0"
 
 group 'com.example'
 version '1.0-SNAPSHOT'
@@ -15,8 +12,16 @@ repositories {
 }
 
 ext {
-    allureVersion = '2.27.0'
-    junitVersion = '5.10.2'
+    allureVersion = '2.25.0'
+    junitVersion = '5.11.3'
+    aspectJVersion = '1.9.22.1'
+}
+
+configurations {
+    agent {
+        canBeResolved = true
+        canBeConsumed = true
+    }
 }
 
 sourceCompatibility = '22'
@@ -35,7 +40,6 @@ tasks.withType(JavaCompile) {
 dependencies {
     implementation('org.seleniumhq.selenium:selenium-java:4.20.0')
     implementation('org.slf4j:slf4j-simple:2.0.13')
-    implementation("org.seleniumhq.selenium:selenium-opera-driver:4.4.0")
     implementation("com.github.javafaker:javafaker:1.0.2")
 
 
@@ -45,11 +49,10 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 
     testImplementation platform("io.qameta.allure:allure-bom:$allureVersion")
-    testImplementation "io.qameta.allure:allure-junit5"
-}
+    testImplementation("io.qameta.allure:allure-junit5:$allureVersion")
 
-test {
-    useJUnitPlatform()
+    agent "org.aspectj:aspectjweaver:$aspectJVersion"
+
 }
 
 allure {
@@ -61,23 +64,7 @@ allure {
     }
 }
 
-// Define the version of AspectJ
-def aspectJVersion = '1.9.21'
-
-// Define configuration for AspectJ agent
-configurations {
-    agent {
-        canBeResolved = true
-        canBeConsumed = true
-    }
-}
-
-dependencies {
-    // Add aspectjweaver dependency
-    agent "org.aspectj:aspectjweaver:$aspectJVersion"
-}
-
-// Configure javaagent for test execution
 test {
+    useJUnitPlatform()
     jvmArgs = [ "-javaagent:${configurations.agent.singleFile}" ]
 }
