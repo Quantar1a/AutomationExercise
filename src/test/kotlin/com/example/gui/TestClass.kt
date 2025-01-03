@@ -231,6 +231,7 @@ class TestClass : BaseTest()
     @AfterEach
     fun closeDriver()
     {
+        webDriver.close()
         webDriver.quit()
     }
 }
