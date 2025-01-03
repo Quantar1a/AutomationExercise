@@ -1,9 +1,6 @@
 package com.example.pages.pageComponents
 
-import com.example.pages.ContactUsPage
-import com.example.pages.InformationalPage
-import com.example.pages.LogInPage
-import com.example.pages.TestCasesPage
+import com.example.pages.*
 import com.example.pages.abstraction.AbstractElement
 import com.example.pages.abstraction.AbstractPage
 import io.qameta.allure.Step
@@ -66,6 +63,13 @@ class PageHeader : AbstractPage()
         return ContactUsPage(this, PageFooter())
     }
 
+    @Step("Click 'Cart' button")
+    fun cartButtonClick() : CartPage
+    {
+        elements.cartButton.click()
+        return CartPage(this, PageFooter())
+    }
+
     private class Elements : AbstractElement()
     {
         @FindBy(xpath = "//img[@src='/static/images/home/logo.png']")
@@ -88,5 +92,8 @@ class PageHeader : AbstractPage()
 
         @FindBy(xpath = "//a[@href='/contact_us']")
         lateinit var contactUsButton : WebElement
+
+        @FindBy(xpath = "//li//a[@href='/view_cart']")
+        lateinit var cartButton : WebElement
     }
 }

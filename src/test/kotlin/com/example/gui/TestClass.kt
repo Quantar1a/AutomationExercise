@@ -68,7 +68,7 @@ class TestClass : BaseTest()
     @Order(2)
     @DisplayName("Test Case 2: Login User with correct email and password")
     @Description("Login in the system with valid data")
-    fun testcase2()
+    fun testCase2()
     {
         mainPage
             .verifyThatMainPageISVisible()
@@ -159,6 +159,39 @@ class TestClass : BaseTest()
             .header
             .testCasesButtonClick()
             .verifyThatTestCasesPageIsVisible()
+    }
+
+    @Test
+    @Order(10)
+    @DisplayName("Test Case 10: Verify Subscription in home page")
+    @Description("Check that user can subscribe to a newsletters from main page")
+    fun testCase10()
+    {
+        mainPage
+            .verifyThatMainPageISVisible()
+            .footer
+            .verifyThatSubscriptionHeaderIsVisible()
+            .scrollToFooter()
+            .verifyThatSubscriptionHeaderIsVisible()
+            .subscribeToNewsLetters(TestData.customer.email)
+            .verifyThatYouHaveBeenSuccessfullySubscribedIsVisible()
+    }
+
+    @Test
+    @Order(11)
+    @DisplayName("Test Case 11: Verify Subscription in Cart page")
+    @Description("Check that user can subscribe to a newsletters from cart page")
+    fun testCase11()
+    {
+        mainPage
+            .verifyThatMainPageISVisible()
+            .header
+            .cartButtonClick()
+            .footer
+            .scrollToFooter()
+            .verifyThatSubscriptionHeaderIsVisible()
+            .subscribeToNewsLetters(TestData.customer.email)
+            .verifyThatYouHaveBeenSuccessfullySubscribedIsVisible()
     }
 
     @Test

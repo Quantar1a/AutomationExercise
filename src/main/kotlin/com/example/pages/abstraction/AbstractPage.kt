@@ -29,13 +29,6 @@ abstract class AbstractPage
         wait = WebDriverWait(webDriver, Duration.ofSeconds(Configuration.explicitlyWait))
     }
 
-    //Scroll to the elements, and wait till it is visible
-    protected fun scrollToTheElement(webElement : WebElement)
-    {
-        jsExecutor.executeScript("arguments[0].scrollIntoView(true);", webElement)
-        this.waitTillElementIsVisible(webElement)
-    }
-
     protected fun waitTillElementIsVisible(webElement : WebElement) : WebElement
     {
         wait.until(ExpectedConditions.visibilityOf(webElement))
@@ -45,5 +38,12 @@ abstract class AbstractPage
     protected fun waitTillAlertIsPresent() : Alert
     {
        return wait.until(ExpectedConditions.alertIsPresent())
+    }
+
+    //Scroll to the elements, and wait till it is visible
+    protected fun scrollToTheElement(webElement : WebElement)
+    {
+        jsExecutor.executeScript("arguments[0].scrollIntoView(true);", webElement)
+        this.waitTillElementIsVisible(webElement)
     }
 }

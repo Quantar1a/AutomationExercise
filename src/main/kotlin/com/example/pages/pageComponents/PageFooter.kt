@@ -32,10 +32,37 @@ class PageFooter : AbstractPage()
         return this
     }
 
+    @Step("Enter email address in input and click arrow button")
+    fun subscribeToNewsLetters(email : String) : PageFooter
+    {
+        elements.emailInputField.sendKeys(email)
+        elements.arrowButton.click()
+        return this
+    }
+
+    @Step("Verify success message 'You have been successfully subscribed!' is visible")
+    fun verifyThatYouHaveBeenSuccessfullySubscribedIsVisible() : PageFooter
+    {
+        Assertions.assertTrue(
+            this.waitTillElementIsVisible(
+                elements.youHaveBeenSuccessfullySubscribedMessage
+            ).isDisplayed)
+        return this
+    }
+
 
     private class Elements() : AbstractElement()
     {
         @FindBy(xpath = "//div[@class='single-widget']//h2")
         lateinit var subscriptionHeader : WebElement
+
+        @FindBy(xpath = "//input[@type='email']")
+        lateinit var emailInputField : WebElement
+
+        @FindBy(xpath = "//div[@class='alert-success alert']")
+        lateinit var youHaveBeenSuccessfullySubscribedMessage : WebElement
+
+        @FindBy(xpath = "//button[@id='subscribe']")
+        lateinit var arrowButton : WebElement
     }
 }
