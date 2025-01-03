@@ -5,6 +5,7 @@ import com.example.pages.abstraction.AbstractPage
 import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
 import io.qameta.allure.Step
+import org.junit.jupiter.api.Assertions
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
@@ -14,21 +15,24 @@ class TestCasesPage(
     var footer : PageFooter
 ) : AbstractPage()
 {
-    private var elements : Elements = Elements()
+    private var elements : Elements
 
     init
     {
+        elements = Elements()
+
         // wait till the page is loaded (element is visible on the page)
         this.waitTillElementIsVisible(elements.testCaseContainer)
     }
 
     @Step("Verify user is navigated to test cases page successfully")
-    fun testCaseContainerIsVisible() : Boolean
+    fun verifyThatTestCasesPageIsVisible() : TestCasesPage
     {
-        return this.waitTillElementIsVisible(elements.testCaseContainer).isDisplayed
+        Assertions.assertTrue(this.waitTillElementIsVisible(elements.testCaseContainer).isDisplayed)
+        return this
     }
 
-    class Elements : AbstractElement()
+    private class Elements : AbstractElement()
     {
         //Container for test cases
         @FindBy(xpath = "//section//div[@class='container']")

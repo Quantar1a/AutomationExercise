@@ -14,7 +14,7 @@ class Configuration
         //Set headless mode
         //true - headless on
         //false - headless off
-        val headlessMode : Boolean = false
+        val headlessMode : Boolean = true
 
         //Clearing all cookie files
         //true - clear

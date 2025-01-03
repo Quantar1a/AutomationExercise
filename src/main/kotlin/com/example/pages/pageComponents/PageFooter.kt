@@ -3,33 +3,37 @@ package com.example.pages.pageComponents
 import com.example.pages.abstraction.AbstractElement
 import com.example.pages.abstraction.AbstractPage
 import io.qameta.allure.Step
+import org.junit.jupiter.api.Assertions
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
 class PageFooter : AbstractPage()
 {
-    private var elements : Elements = Elements()
+    private var elements : Elements
 
     init
     {
+        elements = Elements()
+
         this.waitTillElementIsVisible(elements.subscriptionHeader)
     }
 
     @Step("Scroll down page to bottom")
-    fun scrollToSubscriptionHeader() : PageFooter
+    fun scrollToFooter() : PageFooter
     {
         this.scrollToTheElement(elements.subscriptionHeader)
         return this
     }
 
     @Step("Verify 'SUBSCRIPTION' is visible")
-    fun subscriptionHeaderIsVisible() : Boolean
+    fun verifyThatSubscriptionHeaderIsVisible() : PageFooter
     {
-        return elements.subscriptionHeader.isDisplayed
+        Assertions.assertTrue(elements.subscriptionHeader.isDisplayed)
+        return this
     }
 
 
-    class Elements() : AbstractElement()
+    private class Elements() : AbstractElement()
     {
         @FindBy(xpath = "//div[@class='single-widget']//h2")
         lateinit var subscriptionHeader : WebElement

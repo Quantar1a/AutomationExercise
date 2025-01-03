@@ -5,6 +5,7 @@ import com.example.pages.abstraction.AbstractPage
 import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
 import io.qameta.allure.Step
+import org.junit.jupiter.api.Assertions
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
@@ -13,29 +14,36 @@ class InformationalPage(
     var footer: PageFooter
 ) : AbstractPage()
 {
-    private var elements = Elements()
+    private var elements : Elements
+
+    init
+    {
+        elements = Elements()
+    }
 
     @Step("Verify that 'ACCOUNT CREATED!' is visible")
-    fun accountCreatedTitleIsVisible() : Boolean
+    fun verifyThatAccountCreatedTitleIsVisible() : InformationalPage
     {
-        return this.waitTillElementIsVisible(elements.accountCreatedTitle).isDisplayed
+        Assertions.assertTrue(this.waitTillElementIsVisible(elements.accountCreatedTitle).isDisplayed)
+        return this
     }
 
     @Step("Click 'Continue' button")
-    fun clickOnContinueButton() : AutomationExerciseMainPage
+    fun continueButtonClick() : AutomationExerciseMainPage
     {
         elements.continueButton.click()
         return AutomationExerciseMainPage(header, footer)
     }
 
     @Step("Verify that 'ACCOUNT DELETED!' is visible and click 'Continue' button")
-    fun accountDeletedTitleIsVisible() : Pair<Boolean, InformationalPage>
+    fun verifyThatAccountDeletedTitleIsVisible() : InformationalPage
     {
-        return Pair(elements.accountDeletedTitle.isDisplayed, this)
+        Assertions.assertTrue(elements.accountDeletedTitle.isDisplayed)
+        return this
     }
 
 
-    class Elements() : AbstractElement()
+    private class Elements() : AbstractElement()
     {
         @FindBy(xpath = "//b[text()='Account Created!']")
         lateinit var accountCreatedTitle : WebElement

@@ -8,3 +8,16 @@ data class Message(
     var subject : String,
     var message : String,
     var file : File)
+{
+    override fun toString(): String
+    {
+        return """
+            Message
+            name: $name
+            email: $email
+            subject: $subject
+            message: $message
+            file: $file
+        """
+    }
+}

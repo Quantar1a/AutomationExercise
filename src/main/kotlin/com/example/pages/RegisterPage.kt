@@ -7,6 +7,7 @@ import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
 import com.example.tools.enums.Genders
 import io.qameta.allure.Step
+import org.junit.jupiter.api.Assertions
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 import org.openqa.selenium.support.ui.Select
@@ -16,25 +17,25 @@ class RegisterPage(
     var footer : PageFooter
 ) : AbstractPage()
 {
-    private var elements : Elements = Elements()
+    private var elements : Elements
 
     init
     {
+        elements = Elements()
+
+        // wait till the page is loaded
         this.waitTillElementIsVisible(elements.registerForm)
     }
 
     @Step("Verify that 'ENTER ACCOUNT INFORMATION' is visible")
-    fun checkThatPageTitleIsVisible() : Pair<Boolean, RegisterPage>
+    fun verifyThatPageTitleIsVisible() : RegisterPage
     {
-        return Pair(elements.enterAccountInformationTitle.isDisplayed, this)
+        Assertions.assertTrue(elements.enterAccountInformationTitle.isDisplayed)
+        return this
     }
 
-    @Step("""
-        Fill details: Title, Name, Email, Password, Date of birth
-        Select checkbox 'Sign up for our newsletter!'
-        Select checkbox 'Receive special offers from our partners!'
-    """)
-    fun enterAccountInformation(customer: Customer, password : String, newsLetterSubscription : Boolean, specialOffersSubscription : Boolean) : RegisterPage
+    @Step("Fill details: Title, Name, Email, Password, Date of birth")
+    fun fillInUserDetails(customer: Customer, password : String) : RegisterPage
     {
         when(customer.gender)
         {
@@ -52,23 +53,26 @@ class RegisterPage(
         Select(elements.daySelector).selectByValue(customer.dateOfBirths.day.toString())
         Select(elements.monthSelector).selectByValue(customer.dateOfBirths.month.toString())
         Select(elements.yearSelector).selectByValue("19" + customer.dateOfBirths.year.toString())
+        return this
+    }
 
-        if (newsLetterSubscription)
-        {
-            elements.newsletterSubscriptionCheckbox.click()
-        }
+    @Step("Select checkbox 'Sign up for our newsletter!'")
+    fun singUpForNewsLettersCheckBoxSelection() : RegisterPage
+    {
+        elements.newsletterSubscriptionCheckbox.click()
+        return this
+    }
 
-        if (specialOffersSubscription)
-        {
-            elements.specialOffersCheckbox.click()
-        }
-
+    @Step("Select checkbox 'Receive special offers from our partners!'")
+    fun receiveSpecialOffersCheckBoxSelection() : RegisterPage
+    {
+        elements.specialOffersCheckbox.click()
         return this
     }
 
     @Step("Fill details: First name, Last name, Company, Address, " +
             "Country, State, City, Zipcode, Mobile Number")
-    fun enterAddressInformation(customer : Customer) : RegisterPage
+    fun fillInUserPlaceDetails(customer : Customer) : RegisterPage
     {
         elements.firstNameField.sendKeys(customer.firstName)
         elements.lastNameField.sendKeys(customer.lastName)
@@ -83,13 +87,13 @@ class RegisterPage(
     }
 
     @Step("Click 'Create Account button'")
-    fun createAnAccount() : InformationalPage
+    fun createAccountButtonClick() : InformationalPage
     {
         elements.createAccountButton.click()
         return InformationalPage(header, footer)
     }
 
-    class Elements : AbstractElement()
+    private class Elements : AbstractElement()
     {
         @FindBy(xpath = "//div[@class='login-form']")
         lateinit var registerForm : WebElement

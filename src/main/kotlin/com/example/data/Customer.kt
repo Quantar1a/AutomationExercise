@@ -17,3 +17,23 @@ data class Customer(
     var city : String,
     var zipcode : String,
     var mobileNumber : String)
+{
+    override fun toString(): String
+    {
+        return """
+            Customer info
+            first name: $firstName
+            last name: $lastName
+            gender: $gender
+            email: $email
+            date of birth: $dateOfBirths
+            company: $company
+            address: $address
+            country: ${country.countryName}
+            state: $state
+            city: $city
+            zipcode: $zipcode
+            mobile phone: $mobileNumber
+        """
+    }
+}

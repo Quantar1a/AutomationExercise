@@ -6,8 +6,10 @@ import com.example.pages.abstraction.AbstractPage
 import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
 import io.qameta.allure.Step
+import org.junit.jupiter.api.Assertions
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
+import java.io.File
 
 class ContactUsPage(
     var header: PageHeader,
@@ -24,29 +26,38 @@ class ContactUsPage(
     }
 
     @Step("Verify 'GET IN TOUCH' is visible")
-    fun getInTouchTitleIsVisible() : Pair <Boolean, ContactUsPage>
+    fun verifyThatGetInTouchIsVisible() : ContactUsPage
     {
-        return Pair(elements.getInTouchTitle.isDisplayed, this)
+        Assertions.assertTrue(elements.getInTouchTitle.isDisplayed)
+        return this
     }
 
-    @Step("""
-        Enter name, email, subject and message
-        Upload file
-        Click 'Submit' button
-    """)
-    fun sendAMessage(message : Message) : ContactUsPage
+    @Step("Enter name, email, subject and message")
+    fun enterNameEmailSubjectMessage(message: Message) : ContactUsPage
     {
         elements.nameInputField.sendKeys(message.name)
         elements.emailInputField.sendKeys(message.email)
         elements.subjectInputField.sendKeys(message.subject)
         elements.messageInputField.sendKeys(message.message)
-        elements.fileInputField.sendKeys(message.file.absolutePath)
+        return this
+    }
+
+    @Step("Upload file")
+    fun uploadFile(file : File) : ContactUsPage
+    {
+        elements.fileInputField.sendKeys(file.absolutePath)
+        return this
+    }
+
+    @Step("Click 'Submit' button")
+    fun submitButtonClick() : ContactUsPage
+    {
         elements.submitButton.click()
         return this
     }
 
     @Step("Click OK button")
-    fun submitAlert() : ContactUsPage
+    fun okButtonClickOnAlert() : ContactUsPage
     {
         this.waitTillAlertIsPresent().accept()
         return this
@@ -54,19 +65,20 @@ class ContactUsPage(
 
     @Step("Verify success message 'Success! Your details have been " +
             "submitted successfully.' is visible")
-    fun successMessageISVisible() : Boolean
+    fun verifyThatSuccessMessageIsVisible() : ContactUsPage
     {
-        return elements.successMessage.isDisplayed
+        Assertions.assertTrue(elements.successMessage.isDisplayed)
+        return this
     }
 
     @Step("Click 'Home' button and verify that landed to home page successfully")
-    fun clickOnHomeButton() : AutomationExerciseMainPage
+    fun homeButtonClick() : AutomationExerciseMainPage
     {
         elements.homeButton.click()
         return AutomationExerciseMainPage(header, footer)
     }
 
-    class Elements : AbstractElement()
+    private class Elements : AbstractElement()
     {
         @FindBy(xpath = "//h2[text()='Get In Touch']")
         lateinit var getInTouchTitle : WebElement

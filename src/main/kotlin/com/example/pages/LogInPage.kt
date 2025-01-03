@@ -5,6 +5,7 @@ import com.example.pages.abstraction.AbstractPage
 import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
 import io.qameta.allure.Step
+import org.junit.jupiter.api.Assertions
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
@@ -14,91 +15,109 @@ class LogInPage(
     var footer : PageFooter
 ) : AbstractPage()
 {
-    private var elements : Elements = Elements()
+    private var elements : Elements
 
     init
     {
+        elements = Elements()
+
+        // wait till the page is loaded
         this.waitTillElementIsVisible(elements.loginForm)
     }
 
-    private fun logIn(email : String, password : String)
+    @Step("Enter email address and password in Log In form")
+    private fun enterEmailAddressAndPasswordInLogInForm(email : String, password : String) : LogInPage
     {
         elements.logInEmailInput.sendKeys(email)
         elements.logInPasswordInput.sendKeys(password)
-        elements.logInButton.click()
+        return this
     }
 
-    @Step("""
-        Enter correct email address and password
-        Click 'login' button""")
+    @Step("Click 'login' button on Log In form")
+    private fun loginButtonClickOnLogInForm() : LogInPage
+    {
+        elements.logInButton.click()
+        return this
+    }
+
+    @Step("Log in with valid data")
     fun logInWithValidData(email : String, password : String) : AutomationExerciseMainPage
     {
-        this.logIn(email, password)
+        this.enterEmailAddressAndPasswordInLogInForm(email, password)
+            .loginButtonClickOnLogInForm()
         return AutomationExerciseMainPage(header, footer)
     }
 
-    @Step("""
-        Enter incorrect email address and password
-        Click 'login' button
-    """)
-    fun logInWithInvaliData(email : String, password : String) : LogInPage
+    @Step("Log in with invalid data")
+    fun logInWithInvalidData(email : String, password : String) : LogInPage
     {
-        this.logIn(email, password)
+        this.enterEmailAddressAndPasswordInLogInForm(email, password)
+            .loginButtonClickOnLogInForm()
         return this
     }
 
     @Step("Verify error 'Your email or password is incorrect!' is visible")
-    fun invalidEmailOrPasswordMessageIsVisible() : Boolean
+    fun verifyThatInvalidEmailOrPasswordMessageIsVisible() : LogInPage
     {
-        return this
+        Assertions.assertTrue(this
             .waitTillElementIsVisible(elements.invalidEmailOrPasswordMessage)
-            .isDisplayed
+            .isDisplayed)
+        return this
     }
 
     @Step("Verify 'New User Signup!' is visible")
-    fun newUserSignUpTitleIsVisible() : Pair<Boolean, LogInPage>
+    fun verifyThatNewUserSignUpTitleIsVisible() : LogInPage
     {
-        return Pair(elements.newUserSignUpTitle.isDisplayed, this)
+        Assertions.assertTrue(elements.newUserSignUpTitle.isDisplayed)
+        return this
     }
 
-    @Step("""
-        Enter name and email address
-        Click 'Signup' button
-    """)
-    fun signIn(name : String, email : String) : RegisterPage
+    @Step("Enter name and email address in Sing In form")
+    private fun enterNameAndEmailInSignInForm(name : String, email : String) : LogInPage
     {
         elements.signInNameInput.sendKeys(name)
         elements.signInEmailInput.sendKeys(email)
+        return this
+    }
+
+    @Step("Click 'Signup' button on Sing Up form")
+    private fun signUnButtonClick()
+    {
         elements.signupButton.click()
+    }
+
+    @Step("Sign up with valid data")
+    fun signUpWithValidData(name : String, email : String) : RegisterPage
+    {
+        this.enterNameAndEmailInSignInForm(name, email)
+            .signUnButtonClick()
         return RegisterPage(header, footer)
     }
 
-    @Step("""
-        Enter name and already registered email address
-        Click 'Signup' button
-    """)
-    fun signInWithInvalidData(name : String, email : String) : LogInPage
+    @Step("Sign up with invalid data")
+    fun signUpWithInvalidData(name : String, email : String) : LogInPage
     {
-        elements.signInNameInput.sendKeys(name)
-        elements.signInEmailInput.sendKeys(email)
-        elements.signupButton.click()
+        this.enterNameAndEmailInSignInForm(name, email)
+            .signUnButtonClick()
         return this
     }
 
     @Step("Verify 'Login to your account' is visible")
-    fun logInToYourAccountHeaderIsVisible() : Pair <Boolean, LogInPage>
+    fun verifyThatLogInToYourAccountHeaderIsVisible() : LogInPage
     {
-        return Pair(elements.logInToYourAccountTitle.isDisplayed, this)
+        Assertions.assertTrue(elements.logInToYourAccountTitle.isDisplayed)
+        return this
     }
 
     @Step("Verify error 'Email Address already exist!' is visible")
-    fun emailAddressAlreadyExistsIsVisible() : Boolean
+    fun verifyThatEmailAddressAlreadyExistsIsVisible() : LogInPage
     {
-        return elements.emailAddressAlreadyExistsError.isDisplayed
+        Assertions.assertTrue(elements.emailAddressAlreadyExistsError.isDisplayed)
+        return this
     }
 
 
-    class Elements : AbstractElement()
+    private class Elements : AbstractElement()
     {
         @FindBy(className = "login-form")
         lateinit var loginForm : WebElement

@@ -45,61 +45,23 @@ class TestClass : BaseTest()
     @Description("Register new user in the system")
     fun testCase1()
     {
-        //Main page is visible
-        Assertions.assertTrue(
-            mainPage
-                .mainPageISVisible())
-
-        //"New User Signup!" title is visible
-        val (logInTitleIsVisible, logInPage) =
-            mainPage
-                .header
-                .clickOnLogInButton()
-                .newUserSignUpTitleIsVisible()
-        Assertions.assertTrue(logInTitleIsVisible)
-
-        //"Enter Account Information" title is visible
-        val (registerTitleIsVisible, registerPage) =
-            logInPage
-                .signIn(TestData.customer.firstName, TestData.customer.email)
-                .checkThatPageTitleIsVisible()
-
-        Assertions.assertTrue(registerTitleIsVisible)
-
-        //Register the user, and check that "Account Created!" title is visible
-        val informationalPage =
-            registerPage
-                .enterAccountInformation(
-                    TestData.customer,
-                    TestData.password,
-                    newsLetterSubscription = true,
-                    specialOffersSubscription = true)
-                .enterAddressInformation(TestData.customer)
-                .createAnAccount()
-
-        Assertions.assertTrue(
-            informationalPage
-                .accountCreatedTitleIsVisible())
-
-        //"Logged as a User" text is visible
-        Assertions.assertTrue(
-            informationalPage
-                .clickOnContinueButton()
-                .header
-                .loggedInAsAUserTextIsVisible())
-
-        //Click on "Delete account" button and check that "Account deleted" is visible
-        val (accountDeletedIsVisible, infoPage) =
-            mainPage.header
-                .clickOnDeleteAccountButton()
-                .accountDeletedTitleIsVisible()
-        Assertions.assertTrue(accountDeletedIsVisible)
-
-        //Check that user have returned to main page
-        Assertions.assertTrue(
-            infoPage
-                .clickOnContinueButton()
-                .mainPageISVisible())
+        mainPage
+            .verifyThatMainPageISVisible()
+            .header.logInButtonClick()
+            .verifyThatNewUserSignUpTitleIsVisible()
+            .signUpWithValidData(TestData.customer.firstName, TestData.customer.email)
+            .verifyThatPageTitleIsVisible()
+            .fillInUserDetails(TestData.customer, TestData.password)
+            .singUpForNewsLettersCheckBoxSelection()
+            .receiveSpecialOffersCheckBoxSelection()
+            .fillInUserPlaceDetails(TestData.customer)
+            .createAccountButtonClick()
+            .verifyThatAccountCreatedTitleIsVisible()
+            .continueButtonClick()
+            .header
+            .verifyThatLoggedInAsAUserTextIsVisible()
+            .deleteAccountButtonClick()
+            .verifyThatAccountDeletedTitleIsVisible()
     }
 
     @Test
@@ -108,30 +70,14 @@ class TestClass : BaseTest()
     @Description("Login in the system with valid data")
     fun testcase2()
     {
-        //Main page is visible
-        Assertions.assertTrue(
-            mainPage
-                .mainPageISVisible())
-
-        //"Log in to your account" is visible
-        var (logInToYourAccountIsVisible, logInPage) =
-            mainPage
-                .header
-                .clickOnLogInButton()
-                .logInToYourAccountHeaderIsVisible()
-        Assertions.assertTrue(logInToYourAccountIsVisible)
-
-        //"Logged in as a user" test is visible
-        Assertions.assertTrue(
-            logInPage
-                .logInWithValidData(TestData.email, TestData.password)
-                .header
-                .loggedInAsAUserTextIsVisible())
-
-        //Logout
         mainPage
+            .verifyThatMainPageISVisible()
+            .header.logInButtonClick()
+            .verifyThatLogInToYourAccountHeaderIsVisible()
+            .logInWithValidData(TestData.email, TestData.password)
             .header
-            .logoutButtonClick()
+            .verifyThatLoggedInAsAUserTextIsVisible()
+            .logOutButtonClick()
     }
 
     @Test
@@ -140,16 +86,13 @@ class TestClass : BaseTest()
     @Description("Attempt to login in the system with invalid data")
     fun testCase3()
     {
-        //Main page is visible
-        Assertions.assertTrue(
-            mainPage
-                .mainPageISVisible())
-        //Try to log in with invalid email and check the error message
-        Assertions.assertTrue(
-            mainPage.header
-                .clickOnLogInButton()
-                .logInWithInvaliData("12345@gmail", "123456")
-                .invalidEmailOrPasswordMessageIsVisible())
+        mainPage
+            .verifyThatMainPageISVisible()
+            .header
+            .logInButtonClick()
+            .verifyThatLogInToYourAccountHeaderIsVisible()
+            .logInWithInvalidData("123123@gmai", TestData.password)
+            .verifyThatInvalidEmailOrPasswordMessageIsVisible()
     }
 
     @Test
@@ -158,32 +101,16 @@ class TestClass : BaseTest()
     @Description("Log out user from the system")
     fun testCase4()
     {
-        //Main page is visible
-        Assertions.assertTrue(
-            mainPage
-                .mainPageISVisible())
-
-        //"Log in to your account" is visible
-        var (logInToYourAccountIsVisible, logInPage) =
-            mainPage
-                .header
-                .clickOnLogInButton()
-                .logInToYourAccountHeaderIsVisible()
-        Assertions.assertTrue(logInToYourAccountIsVisible)
-
-        //"Logged in as a user" test is visible
-        Assertions.assertTrue(
-            logInPage
-                .logInWithValidData(TestData.email, TestData.password)
-                .header
-                .loggedInAsAUserTextIsVisible())
-
-        //Logout and check that the LogIn page is visible
-        Assertions.assertTrue(
-            mainPage
+        mainPage
+            .verifyThatMainPageISVisible()
             .header
-            .logoutButtonClick().logInToYourAccountHeaderIsVisible()
-            .first)
+            .logInButtonClick()
+            .verifyThatLogInToYourAccountHeaderIsVisible()
+            .logInWithValidData(TestData.email, TestData.password)
+            .header
+            .verifyThatLoggedInAsAUserTextIsVisible()
+            .logOutButtonClick()
+            .verifyThatLogInToYourAccountHeaderIsVisible()
     }
 
     @Test
@@ -193,23 +120,13 @@ class TestClass : BaseTest()
             "amd check the error message")
     fun testCase5()
     {
-        //Main page is visible
-        Assertions.assertTrue(
-            mainPage
-                .mainPageISVisible())
-
-        //"New User Signup!" title is visible
-        val (logInTitleIsVisible, logInPage) =
-            mainPage
-                .header
-                .clickOnLogInButton()
-                .newUserSignUpTitleIsVisible()
-        Assertions.assertTrue(logInTitleIsVisible)
-
-        //"Email already exists" error message is visible
-        Assertions.assertTrue(logInPage
-            .signInWithInvalidData("Anna", TestData.email)
-            .emailAddressAlreadyExistsIsVisible())
+        mainPage
+            .verifyThatMainPageISVisible()
+            .header
+            .logInButtonClick()
+            .verifyThatNewUserSignUpTitleIsVisible()
+            .signUpWithInvalidData(TestData.customer.firstName, TestData.email)
+            .verifyThatEmailAddressAlreadyExistsIsVisible()
     }
 
     @Test
@@ -218,31 +135,17 @@ class TestClass : BaseTest()
     @Description("Go to \"Contact us\" form, fill it, and send the message")
     fun testCase6()
     {
-        //Main page is visible
-        Assertions.assertTrue(
-            mainPage
-                .mainPageISVisible())
-
-        //
-        var (getInTouchTitleIsVisible, contactUsPage) =
         mainPage
+            .verifyThatMainPageISVisible()
             .header
-            .clickOnContactUsButton()
-            .getInTouchTitleIsVisible()
-        Assertions.assertTrue(getInTouchTitleIsVisible)
-
-        //"Success! Your details have been submitted successfully." message is displayed
-        Assertions.assertTrue(
-            contactUsPage
-                .sendAMessage(TestData.message)
-                .submitAlert()
-                .successMessageISVisible())
-
-        //Click on "Home" button and check that home page is visible
-        Assertions.assertTrue(
-            contactUsPage
-                .clickOnHomeButton()
-                .mainPageISVisible())
+            .contactUsButtonClick()
+            .verifyThatGetInTouchIsVisible()
+            .enterNameEmailSubjectMessage(TestData.message)
+            .uploadFile(TestData.message.file)
+            .submitButtonClick()
+            .okButtonClickOnAlert()
+            .verifyThatSuccessMessageIsVisible()
+            .homeButtonClick()
     }
 
     @Test
@@ -251,16 +154,11 @@ class TestClass : BaseTest()
     @Description("Check that the page with test cases is displayed after moving to it")
     fun testCase7()
     {
-        //Main page is visible
-        Assertions.assertTrue(
-            mainPage
-                .mainPageISVisible())
-
-        //Navigate to "Test cases" page and check that it is visible
-        Assertions.assertTrue(
-            mainPage.header
-                .clickOnTestCasesButton()
-                .testCaseContainerIsVisible())
+        mainPage
+            .verifyThatMainPageISVisible()
+            .header
+            .testCasesButtonClick()
+            .verifyThatTestCasesPageIsVisible()
     }
 
     @Test
@@ -270,23 +168,14 @@ class TestClass : BaseTest()
             "and move to the top by clicking on arrow button")
     fun textCase25()
     {
-        //Main page is visible
-        Assertions.assertTrue(
-            mainPage
-                .mainPageISVisible())
-
-        //Scroll page to footer and check that "Subscription" title is visible
-        Assertions.assertTrue(
-            mainPage
-                .footer
-                .scrollToSubscriptionHeader()
-                .subscriptionHeaderIsVisible())
-
-        //Click on arrow button and check that the text on the banner is visible
-        Assertions.assertTrue(
-            mainPage
-                .clickOnArrow()
-                .bannerTextIsVisible())
+        mainPage
+            .verifyThatMainPageISVisible()
+            .footer
+            .scrollToFooter()
+            .verifyThatSubscriptionHeaderIsVisible()
+        mainPage
+            .arrowButtonClick()
+            .verifyThatBannerTextIsVisible()
     }
 
     @Test
@@ -296,24 +185,14 @@ class TestClass : BaseTest()
             "and move to the top by scrolling it manually")
     fun textCase26()
     {
-        //Main page is visible
-        Assertions.assertTrue(
-            mainPage
-                .mainPageISVisible())
-
-        //Check that "Subscription" header is visible
-        Assertions.assertTrue(
-            mainPage
-                .footer
-                .scrollToSubscriptionHeader()
-                .subscriptionHeaderIsVisible())
-
-        //Check that "Full-Fledged practice website for Automation Engineers" title is visible
-        Assertions.assertTrue(
-            mainPage
-                .scrollToBannerText()
-                .bannerTextIsVisible())
-        
+        mainPage
+            .verifyThatMainPageISVisible()
+            .footer
+            .scrollToFooter()
+            .verifyThatSubscriptionHeaderIsVisible()
+        mainPage
+            .scrollUpToBanner()
+            .verifyThatBannerTextIsVisible()
     }
 
     @AfterEach

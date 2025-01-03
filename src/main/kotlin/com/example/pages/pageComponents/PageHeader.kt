@@ -7,61 +7,66 @@ import com.example.pages.TestCasesPage
 import com.example.pages.abstraction.AbstractElement
 import com.example.pages.abstraction.AbstractPage
 import io.qameta.allure.Step
+import org.junit.jupiter.api.Assertions
 import org.openqa.selenium.WebElement
 import org.openqa.selenium.support.FindBy
 
 //Class that describes header of the page
 class PageHeader : AbstractPage()
 {
-    private var elements : Elements = Elements()
+    private var elements : Elements
 
     init
     {
+        elements = Elements()
+
+        //Wait till page component is visible
         this.waitTillElementIsVisible(elements.webSiteLogo)
     }
 
     @Step("Click on 'Signup / Login' button")
-    fun clickOnLogInButton() : LogInPage
+    fun logInButtonClick() : LogInPage
     {
         elements.loginButton.click()
         return LogInPage(this, PageFooter())
     }
 
     @Step("Click on 'Test Cases' button")
-    fun clickOnTestCasesButton() : TestCasesPage
+    fun testCasesButtonClick() : TestCasesPage
     {
         elements.testCasesButton.click()
         return TestCasesPage(this, PageFooter())
     }
 
     @Step("Verify that 'Logged in as username' is visible")
-    fun loggedInAsAUserTextIsVisible() : Boolean
+    fun verifyThatLoggedInAsAUserTextIsVisible() : PageHeader
     {
-        return elements.loggedInAsUserText.isDisplayed
+        Assertions.assertTrue(elements.loggedInAsUserText.isDisplayed)
+        return this
     }
 
     @Step("Click 'Delete Account' button")
-    fun clickOnDeleteAccountButton() : InformationalPage
+    fun deleteAccountButtonClick() : InformationalPage
     {
         elements.deleteAccountButton.click()
         return InformationalPage(this, PageFooter())
     }
 
     @Step("Click 'Logout' button")
-    fun logoutButtonClick() : LogInPage
+    fun logOutButtonClick() : LogInPage
     {
         elements.logoutButton.click()
         return LogInPage(this, PageFooter())
     }
 
     @Step("Click on 'Contact Us' button")
-    fun clickOnContactUsButton() : ContactUsPage
+    fun contactUsButtonClick() : ContactUsPage
     {
         elements.contactUsButton.click()
         return ContactUsPage(this, PageFooter())
     }
 
-    class Elements : AbstractElement()
+    private class Elements : AbstractElement()
     {
         @FindBy(xpath = "//img[@src='/static/images/home/logo.png']")
         lateinit var webSiteLogo : WebElement

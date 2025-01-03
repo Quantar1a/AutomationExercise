@@ -13,8 +13,11 @@ abstract class AbstractElement
         protected lateinit var webDriver: WebDriver
     }
 
-    init{
+    init
+    {
         webDriver = Settings.getWebDriver()
-        PageFactory.initElements(webDriver, this)
+        PageFactory.initElements(
+            /* searchContext = */ webDriver,
+            /* page = */ this)
     }
 }
