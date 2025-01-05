@@ -1,9 +1,10 @@
 package com.example.pages
 
 import com.example.pages.abstraction.AbstractElement
-import com.example.pages.abstraction.AbstractPage
+import com.example.pages.abstraction.AbstractPageContainsListOfProducts
 import com.example.pages.pageComponents.PageFooter
 import com.example.pages.pageComponents.PageHeader
+import com.example.pages.pageComponents.Product
 import io.qameta.allure.Step
 import org.junit.jupiter.api.Assertions
 import org.openqa.selenium.WebElement
@@ -13,13 +14,15 @@ import org.openqa.selenium.support.FindBy
 class AutomationExerciseMainPage(
     var header : PageHeader,
     var footer : PageFooter
-) : AbstractPage()
+) : AbstractPageContainsListOfProducts()
 {
-    private val elements : Elements
+    override var productList : MutableList<Product>
+    private var elements : Elements
 
     init
     {
         elements = Elements()
+        productList = this.getListOfProducts()
 
         //Wait till the page is visible
         this.waitTillElementIsVisible(elements.topCarousel)

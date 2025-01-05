@@ -162,6 +162,39 @@ class TestClass : BaseTest()
     }
 
     @Test
+    @Order(8)
+    @DisplayName("Test Case 8: Verify All Products and product detail page")
+    @Description("Verification details about product on page of the specific page")
+    fun testCase8()
+    {
+        mainPage
+            .verifyThatMainPageISVisible()
+            .header
+            .productsButtonClick()
+            .verifyThatUserIsOnProductsPage()
+            .verifyThatProductListIsVisible()
+            .getElementFromProductList(1)
+            .viewProductClick()
+            .verifyThatUserIsOnSpecificProductPage()
+            .verifyThatInformationAboutProductIsVisible()
+    }
+
+    @Disabled("Impossible to test. Search field is absent")
+    @Test
+    @Order(9)
+    @DisplayName("Test Case 9: Search Product")
+    @Description("Check the product searching")
+    fun testCase9()
+    {
+        mainPage
+            .verifyThatMainPageISVisible()
+            .header
+            .productsButtonClick()
+            .verifyThatUserIsOnProductsPage()
+            .verifyThatProductListIsVisible()
+    }
+
+    @Test
     @Order(10)
     @DisplayName("Test Case 10: Verify Subscription in home page")
     @Description("Check that user can subscribe to a newsletters from main page")

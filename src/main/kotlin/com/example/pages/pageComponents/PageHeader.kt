@@ -70,6 +70,13 @@ class PageHeader : AbstractPage()
         return CartPage(this, PageFooter())
     }
 
+    @Step("Click on 'Products' button")
+    fun productsButtonClick() : ProductsPage
+    {
+        elements.productsButton.click()
+        return ProductsPage(this, PageFooter())
+    }
+
     private class Elements : AbstractElement()
     {
         @FindBy(xpath = "//img[@src='/static/images/home/logo.png']")
@@ -95,5 +102,8 @@ class PageHeader : AbstractPage()
 
         @FindBy(xpath = "//li//a[@href='/view_cart']")
         lateinit var cartButton : WebElement
+
+        @FindBy(xpath = "//a[@href='/products']")
+        lateinit var productsButton : WebElement
     }
 }
